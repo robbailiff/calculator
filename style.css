@@ -1,0 +1,29 @@
+html {
+    font-size: 1rem;
+}
+
+h1 {
+	font-size: 3rem;
+    text-align: center;
+}
+
+#container {
+    display: flex;
+    justify-content: center;
+}
+
+#calculator {
+    border: 1px solid black;
+    padding: 1rem;
+}
+
+#display{
+    border: 1px solid black;
+    margin-bottom: 1rem;
+}
+
+#buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1rem;
+}
