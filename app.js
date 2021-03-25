@@ -62,7 +62,14 @@ function divide(x, y) {
 }
 
 function back() {
-    console.log("The back button was pressed.")
+    if (displayValue.charCodeAt(displayValue.length-1) == 32) {
+        displayValue = displayValue.slice(0, -3);
+    } else if (displayValue.length == 1) {
+        displayValue = '0';
+    } else {
+        displayValue = displayValue.slice(0, -1);
+    }
+    display.textContent = displayValue;
 }
 
 function clear() {
