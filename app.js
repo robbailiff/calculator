@@ -13,8 +13,11 @@ const numberButtons = document.querySelectorAll('button.number')
 numberButtons.forEach((button) => {
     button.addEventListener("click", (e) => {
         let pressedButton = e.target.id;
-
-        displayValue += pressedButton;
+        if (displayValue.length <= 1 && displayValue.charAt(0) == 0) {
+            displayValue = pressedButton;
+        } else {
+            displayValue += pressedButton;
+        }
         console.log(displayValue);
         display.textContent = displayValue;
     })
@@ -35,7 +38,24 @@ const functionButtons = document.querySelectorAll('button.function')
 functionButtons.forEach((button) => {
     button.addEventListener("click", (e) => {
         let pressedButton = e.target.id;
-        window[pressedButton]();
+
+        if(e.target.id == 'equals') {
+            console.log('Equals Button');
+        } else {
+            let displayArray = displayValue.split(' ');
+
+            if (displayArray.length < 3) {
+                //change index 0
+                displayArray[0] = window[pressedButton](displayArray[0]);
+                console.log(displayArray[0])
+            } else {
+                //change index 2
+                displayArray[2] = window[pressedButton](displayArray[2]);
+                console.log(displayArray[0])
+        }
+        displayValue = displayArray.join(' ');
+        display.textContent = displayValue;
+        }
     })
 });
 
@@ -61,6 +81,10 @@ function divide(x, y) {
     return x / y;
 }
 
+function exponent(x, y) {
+    return x ** y;
+}
+
 function back() {
     if (displayValue.charCodeAt(displayValue.length-1) == 32) {
         displayValue = displayValue.slice(0, -3);
@@ -73,19 +97,24 @@ function back() {
 }
 
 function clear() {
-    console.log("The clear button was pressed.")
+    displayValue = '0';
+    display.textContent = displayValue;
 }
 
-function percentage() {
-    console.log("The % button was pressed.")
+function plusMinus(value) {
+    if(value.charCodeAt(0) == 45){
+        return value.slice(1);
+    } else {
+        return '-' + value;
+    }
 }
 
-function plusMinus() {
-    console.log("The +/- button was pressed.")
-}
-
-function decimal() {
-    console.log("The decimal button was pressed.")
+function decimal(value) {
+    if(!value.includes('.')) {
+        return value + '.'
+    } else {
+        return value
+    }
 }
 
 function equals() {
