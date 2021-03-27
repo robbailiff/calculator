@@ -13,6 +13,7 @@ const numberButtons = document.querySelectorAll('button.number')
 numberButtons.forEach((button) => {
     button.addEventListener("click", (e) => {
         let pressedButton = e.target.id;
+
         if (displayValue.length <= 1 && displayValue.charAt(0) == 0) {
             displayValue = pressedButton;
         } else {
@@ -28,9 +29,12 @@ operatorButtons.forEach((button) => {
     button.addEventListener("click", (e) => {
         let pressedButton = e.target.value;
         
-        displayValue += ` ${pressedButton} `;
-        console.log(displayValue);
-        display.textContent = displayValue;
+        if(!operatorActive) {
+            displayValue += ` ${pressedButton} `;
+            console.log(displayValue);
+            display.textContent = displayValue;
+            operatorActive = true;
+        }
     })
 });
 
@@ -41,6 +45,8 @@ functionButtons.forEach((button) => {
 
         if(e.target.id == 'equals') {
             console.log('Equals Button');
+        } else if (e.target.id == 'back' || e.target.id == 'clear') {
+            window[pressedButton]();
         } else {
             let displayArray = displayValue.split(' ');
 
@@ -88,6 +94,7 @@ function exponent(x, y) {
 function back() {
     if (displayValue.charCodeAt(displayValue.length-1) == 32) {
         displayValue = displayValue.slice(0, -3);
+        operatorActive = false;
     } else if (displayValue.length == 1) {
         displayValue = '0';
     } else {
@@ -99,6 +106,7 @@ function back() {
 function clear() {
     displayValue = '0';
     display.textContent = displayValue;
+    operatorActive = false;
 }
 
 function plusMinus(value) {
@@ -118,5 +126,27 @@ function decimal(value) {
 }
 
 function equals() {
+    let operatorName = '';
+    const displayArray = displayValue.split(' ');
+    switch (displayArray[1]) {
+        case '+':
+            operatorName = 'add';
+            break;
+        case '-':
+            operatorName = 'subtract';
+            break;
+        case '*':
+            operatorName = 'multiply';
+            break;
+        case '/':
+            operatorName = 'divide';
+            break;
+        case '^':
+            operatorName = 'exponent';
+            break;
+        default:
+            return "Error"
+    }
+    const result = operate(operatorName, displayArray[0], displayArray[2])
     console.log("The = button was pressed.")
 }
