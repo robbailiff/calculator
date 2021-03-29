@@ -115,7 +115,11 @@ function multiply(x, y) {
 };
 
 function divide(x, y) {
-    return x / y;
+    if(y == 0) {
+        return 0
+    } else {
+        return x / y;
+    }
 };
 
 function exponent(x, y) {
